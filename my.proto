@@ -1,0 +1,16 @@
+
+  rpc SendMessage(TweetRequest) returns (TweeterReply) {}
+
+  rpc GetMessage(LastNTweetsRequest) returns (TweeterReply) {}
+
+message TweetRequest{
+	string tweet = 1;
+}
+
+message TweeterReply{
+  string message = 1;
+}
+
+message LastNTweetsRequest{
+	int32 number = 1;
+}
