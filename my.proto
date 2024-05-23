@@ -1,14 +1,21 @@
+syntax = "proto3";
 
-  rpc SendMessage(TweetRequest) returns (TweeterReply) {}
+package BasicT;
+
+service Tweeter{
+
+  rpc SendMessage(TweeterRequest) returns (TweeterReply) {}
 
   rpc GetMessage(LastNTweetsRequest) returns (TweeterReply) {}
+}
 
-message TweetRequest{
+
+message TweeterRequest{
 	string tweet = 1;
 }
 
 message TweeterReply{
-  string message = 1;
+	string message = 1;
 }
 
 message LastNTweetsRequest{
