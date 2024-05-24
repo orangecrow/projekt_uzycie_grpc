@@ -36,7 +36,7 @@ class TweeterServiceImpl final : public Tweeter::Service {
   Status GetMessage(ServerContext* context, const LastNTweetsRequest* request,
                   TweeterReply* reply) override {
     std::string prefix("Hello ");
-    reply->set_message(prefix + string(request->number()));
+    reply->set_message(prefix + std::to_string(request->number()));
     return Status::OK;
   }
 };
@@ -45,8 +45,8 @@ void RunServer(uint16_t port) {
   std::string server_address = absl::StrFormat("0.0.0.0:%d", port);
   TweeterServiceImpl service;
 
-  grpc::EnableDefaultHealthCheckService(true);
-  grpc::reflection::InitProtoReflectionServerBuilderPlugin();
+  //grpc::EnableDefaultHealthCheckService(true);
+  //grpc::reflection::InitProtoReflectionServerBuilderPlugin();
   ServerBuilder builder;
   // Listen on the given address without any authentication mechanism.
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
@@ -63,7 +63,8 @@ void RunServer(uint16_t port) {
 }
 
 int main(int argc, char** argv) {
-  absl::ParseCommandLine(argc, argv);
+  //absl::ParseCommandLine(argc, argv);
   RunServer(absl::GetFlag(FLAGS_port));
+  //RunServer(50051);
   return 0;
 }
