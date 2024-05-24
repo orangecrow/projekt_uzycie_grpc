@@ -44,15 +44,17 @@ class TweeterServiceImpl final : public Tweeter::Service {
   }
 
   Status GetMessage(ServerContext* context, const LastNTweetsRequest* request,
-                  TweeterReply* reply) override {
-    std::string tweets("Tweets:\n");
-	if ( request->number() <= tweet_list.size() )
-	for (int i=0; i<request->number(); i++){
-		tweets+=tweet_list[i];
-		tweets+="\n-------------\n";
-	}
-    reply->set_message(tweets);
-    return Status::OK;
+		  TweeterReply* reply) override {
+	  std::string tweets("Tweets:\n\n");
+	  if ( request->number() <= tweet_list.size() )
+		  for (int i=0; i<request->number(); i++){
+			  tweets+=tweet_list[i];
+			  tweets+="\n--------------------------\n";
+		  }
+	  else
+		  tweets+="\nSorry the number was invalid.";
+	  reply->set_message(tweets);
+	  return Status::OK;
   }
 };
 

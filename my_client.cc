@@ -89,21 +89,43 @@ int main(int argc, char** argv) {
   // InsecureChannelCredentials()).
   TweeterClient tweeter(
       grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials()));
-  std::string tweet("I like pancakes");
+
+  std::string tweet("First tweet");
   std::string reply = tweeter.SendMessage(tweet);
-  std::cout << "received: " << reply << std::endl;
-
-  tweet="I like burgers";
-  reply = tweeter.SendMessage(tweet);
-  std::cout << "received: " << reply << std::endl;
-
-  tweet="I like toast";
-  reply = tweeter.SendMessage(tweet);
-  std::cout << "received: " << reply << std::endl;
-
-  int number_of_tweets = 2;
-  reply = tweeter.GetMessage(number_of_tweets);
-  std::cout << "received: " << reply << std::endl;
+  int number_of_tweets = 0;
+  char command = 'a';
+  using namespace std;
+  while(command!='q'){
+	  cout << "What would you like to do?\nt - send a tweet\nn - get some tweets from the server\nq - quit\n";
+	  cin >> command;
+		  switch(command){
+			  case 't':
+				  //some code
+				  cout << "type your tweet and press enter to send. If you want to cancel simply delete all characters and press enter" << endl;
+				  cin.ignore();
+				  getline(cin, tweet);
+				  if ( tweet.length()>0){
+					  reply = tweeter.SendMessage(tweet);
+					  cout << reply << endl;
+				  }else{
+					  cout << "empty tweet; It was not send" << endl;
+				  }
+				  break;
+			  case 'n':
+				  //some code
+				  cout << "How many tweets do you want from a server?" << endl;
+				  cin >> number_of_tweets;
+				  reply = tweeter.GetMessage(number_of_tweets);
+				  cout << "Here are the " << reply << endl;
+				  break;
+			  case 'q':
+				  cout << "Ok, bye!" << endl;
+				  break;
+			  default:
+				  cout << "This is not a valid command\n";
+					  break;
+		  }
+  }
 
   return 0;
 }
