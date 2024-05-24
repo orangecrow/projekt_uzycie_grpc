@@ -89,13 +89,21 @@ int main(int argc, char** argv) {
   // InsecureChannelCredentials()).
   TweeterClient tweeter(
       grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials()));
-  std::string tweet("world");
+  std::string tweet("I like pancakes");
   std::string reply = tweeter.SendMessage(tweet);
-  std::cout << "Tweeter received: " << reply << std::endl;
+  std::cout << "received: " << reply << std::endl;
 
-  int number_of_tweets = 5;
+  tweet="I like burgers";
+  reply = tweeter.SendMessage(tweet);
+  std::cout << "received: " << reply << std::endl;
+
+  tweet="I like toast";
+  reply = tweeter.SendMessage(tweet);
+  std::cout << "received: " << reply << std::endl;
+
+  int number_of_tweets = 2;
   reply = tweeter.GetMessage(number_of_tweets);
-  std::cout << "Tweeter received: " << reply << std::endl;
+  std::cout << "received: " << reply << std::endl;
 
   return 0;
 }

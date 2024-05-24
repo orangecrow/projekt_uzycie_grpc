@@ -1,3 +1,7 @@
+#[[
+Big Thanks to Shradha Sehgal at https://medium.com/@shradhasehgal for putting online a guide with a working way (using cmake with this file) to compile this google mess (method from grpc.io doesn't work).
+]]
+
 # Minimum CMake required
 cmake_minimum_required(VERSION 3.15)
 

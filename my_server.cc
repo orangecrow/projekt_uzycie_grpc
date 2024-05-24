@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "absl/flags/flag.h"
 #include "absl/flags/parse.h"
@@ -23,20 +24,34 @@ using BasicT::LastNTweetsRequest;
 
 ABSL_FLAG(uint16_t, port, 50051, "Server port for the service");
 
+std::vector<std::string> tweet_list;
+
 // Logic and data behind the server's behavior.
 class TweeterServiceImpl final : public Tweeter::Service {
 
   Status SendMessage(ServerContext* context, const TweeterRequest* request,
                   TweeterReply* reply) override {
-    std::string prefix("Hello ");
-    reply->set_message(prefix + request->tweet());
+    std::string tweet_ok("Your tweet has been submited\n");
+    std::string tweet_not_ok("Your tweet is too long\n");
+	if (request->tweet().length()<=50){
+		reply->set_message(tweet_ok);
+		tweet_list.insert( tweet_list.begin(), request->tweet() );
+	}
+	else{
+		reply->set_message(tweet_not_ok);
+	}
     return Status::OK;
   }
 
   Status GetMessage(ServerContext* context, const LastNTweetsRequest* request,
                   TweeterReply* reply) override {
-    std::string prefix("Hello ");
-    reply->set_message(prefix + std::to_string(request->number()));
+    std::string tweets("Tweets:\n");
+	if ( request->number() <= tweet_list.size() )
+	for (int i=0; i<request->number(); i++){
+		tweets+=tweet_list[i];
+		tweets+="\n-------------\n";
+	}
+    reply->set_message(tweets);
     return Status::OK;
   }
 };
