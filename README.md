@@ -1,4 +1,4 @@
-Obviously gRPC needs to be installed for this
-To build run:
-cmake .
-make
+Obviously gRPC needs to be installed for this.  
+To build run:  
+cmake .  
+make  
