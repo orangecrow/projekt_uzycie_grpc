@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -25,6 +26,16 @@ using BasicT::LastNTweetsRequest;
 ABSL_FLAG(uint16_t, port, 50051, "Server port for the service");
 
 std::vector<std::string> tweet_list;
+std::ofstream out_file_handle;
+
+int load(std::string filename){
+	std::ifstream in_file_handle(filename);
+	std::string text;
+	while(getline(in_file_handle, text)){
+			tweet_list.insert(tweet_list.begin(),text);
+	}
+	return 0;
+}
 
 // Logic and data behind the server's behavior.
 class TweeterServiceImpl final : public Tweeter::Service {
@@ -36,6 +47,7 @@ class TweeterServiceImpl final : public Tweeter::Service {
 	if (request->tweet().length()<=50){
 		reply->set_message(tweet_ok);
 		tweet_list.insert( tweet_list.begin(), request->tweet() );
+		out_file_handle << request->tweet() << std::endl;
 	}
 	else{
 		reply->set_message(tweet_not_ok);
@@ -80,6 +92,9 @@ void RunServer(uint16_t port) {
 }
 
 int main(int argc, char** argv) {
+  std::string filename = "saved_tweets.txt";
+  load(filename);
+  out_file_handle.open(filename, std::ios_base::app);
   //absl::ParseCommandLine(argc, argv);
   RunServer(absl::GetFlag(FLAGS_port));
   //RunServer(50051);

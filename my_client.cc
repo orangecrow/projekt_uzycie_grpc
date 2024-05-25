@@ -90,8 +90,8 @@ int main(int argc, char** argv) {
   TweeterClient tweeter(
       grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials()));
 
-  std::string tweet("First tweet");
-  std::string reply = tweeter.SendMessage(tweet);
+  std::string tweet;
+  std::string reply; 
   int number_of_tweets = 0;
   char command = 'a';
   using namespace std;
