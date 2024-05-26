@@ -85,6 +85,8 @@ int main(int argc, char** argv) {
   // are created. This channel models a connection to an endpoint specified by
   // the argument "--target=" which is the only expected argument.
   std::string target_str = absl::GetFlag(FLAGS_target);
+  if (argc > 1)
+	  target_str = argv[1];
   // We indicate that the channel isn't authenticated (use of
   // InsecureChannelCredentials()).
   TweeterClient tweeter(
